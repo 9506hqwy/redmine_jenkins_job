@@ -3,7 +3,7 @@ function addBuildRow(parent, data) {
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
-        for (const ex of child.querySelectorAll('span.expander')) {
+        for (const ex of child.querySelectorAll('.expander')) {
             ex.addEventListener('click', toggleJob);
         }
 
@@ -23,7 +23,7 @@ function addFolderRow(parent, data) {
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
-        for (const ex of child.querySelectorAll('span.expander')) {
+        for (const ex of child.querySelectorAll('.expander')) {
             ex.addEventListener('click', toggleFolder);
         }
 
@@ -41,7 +41,7 @@ function replaceBuildRow(target, data) {
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
-        for (const ex of child.querySelectorAll('span.expander')) {
+        for (const ex of child.querySelectorAll('.expander')) {
             ex.addEventListener('click', toggleJob);
         }
 
@@ -66,7 +66,7 @@ function replaceJobRow(job, data) {
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
-        for (const ex of child.querySelectorAll('span.expander')) {
+        for (const ex of child.querySelectorAll('.expander')) {
             ex.addEventListener('click', toggleJob);
         }
 
@@ -128,6 +128,7 @@ function collapseFolderRow(row) {
     const expander = row.querySelector('.expander');
     expander.classList.remove('icon-expended');
     expander.classList.remove('icon-expanded');
+    expander.classList.add('collapsed');
     expander.classList.add('icon-collapsed');
 
     row.classList.remove('open');
@@ -140,6 +141,7 @@ function collapseJobRow(row) {
     const expander = row.querySelector('.expander');
     expander.classList.remove('icon-expended');
     expander.classList.remove('icon-expanded');
+    expander.classList.add('collapsed');
     expander.classList.add('icon-collapsed');
 
     row.classList.add('collapsed');
@@ -150,6 +152,7 @@ function expandFolderRow(row) {
     row.classList.add('open');
 
     const expander = row.querySelector('.expander');
+    expander.classList.remove('collapsed');
     expander.classList.remove('icon-collapsed');
     expander.classList.add('icon-expended');
     expander.classList.add('icon-expanded');
@@ -161,6 +164,7 @@ function expandJobRow(row) {
     row.classList.remove('collapsed');
 
     const expander = row.querySelector('.expander');
+    expander.classList.remove('collapsed');
     expander.classList.remove('icon-collapsed');
     expander.classList.add('icon-expended');
     expander.classList.add('icon-expanded');

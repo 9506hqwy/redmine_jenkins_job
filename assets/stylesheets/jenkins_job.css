@@ -22,6 +22,10 @@
     }
 }
 
+a.icon.collapsible {
+    text-decoration: none;
+}
+
 dialog.jenkins {
     height: 50vh;
     width: 50vw;

@@ -39,7 +39,7 @@ class JenkinsSettingControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select 'tr.jenkins-folder'
-    assert_select 'span.expander'
+    assert_select 'a.expander'
     assert_select 'span.icon-folder'
     assert_select 'span#count-job-795910a0934fc2e0f30fe2806598d683'
   ensure

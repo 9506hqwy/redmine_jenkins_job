@@ -19,16 +19,17 @@
 
   <td class="name" style="padding-left: <%= 18 * depth %>px;">
     <% if job.folder? %>
-    <span class="expander icon icon-collapsed"
-          data-id="<%= job.id %>"
-          data-url="<%=
+    <a class="collapsible collapsed expander icon icon-collapsed"
+       href="#"
+       data-id="<%= job.id %>"
+       data-url="<%=
       url_for(
         controller: "jenkins_setting",
         action: "jobs",
         project_id: @project.id,
         folder_path: job.path,
         depth: depth + 1)%>"
-    >&nbsp;</span>
+    >&nbsp;</a>
     <% end %>
 
     <span class="icon <%= job.folder? ? 'icon-folder' : 'icon-file' %>">
