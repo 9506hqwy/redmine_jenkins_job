@@ -1,0 +1,90 @@
+<% @jobs.each do |job| %>
+
+<tr id="<%= job.id %>" class="jenkins-job collapsed">
+  <td class="name">
+    <span class="expander icon icon-collapsed"
+          data-id="<%= job.id %>"
+          data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "builds",
+        project_id: @project.id,
+        job_path: job.path)%>"
+    >&nbsp;</span>
+    <a class="external" href="<%= job.browse_url %>" target="_blank"><%= job.full_name %></a>
+  </td>
+
+  <td class="datetime"><%= format_time(job.last_build_datetime) %></td>
+
+  <td class="result">
+    <% case job.last_build_result %>
+    <% when 'SUCCESS' then %>
+      <span class="icon icon-ok"><%= job.last_build_result %></span>
+    <% when 'FAILURE' then %>
+      <span class="icon icon-error"><%= job.last_build_result %></span>
+    <% when 'ABORTED' then %>
+      <span class="icon icon-warning"><%= job.last_build_result %></span>
+    <% else %>
+      &nbsp;
+    <% end %>
+  </td>
+
+  <td class="operation">
+    <% if authorize_for('jenkins_job', 'exec') %>
+    <a class="icon icon-add"
+       href="#"
+       data-id="<%= job.id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "exec",
+        project_id: @project.id,
+        job_path: job.path)%>"
+    ><%= l(:label_jenkins_operation_exec) %></a>
+    &nbsp;
+    <% end %>
+
+    <a class="icon icon-reload"
+       href="#"
+       data-id="<%= job.id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "job",
+        project_id: @project.id,
+        job_path: job.path)%>"
+    ><%= l(:label_jenkins_operation_refresh) %></a>
+    &nbsp;
+
+    <% if job.last_build_result.present? %>
+    <a class="icon icon-file text-plain"
+       href="#"
+       data-id="<%= job.id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "output",
+        project_id: @project.id,
+        job_path: job.path,
+        id: job.last_build_id)%>"
+    ><%= l(:label_jenkins_operation_stdout) %></a>
+    &nbsp;
+
+    <% if job.last_build_artifacts.any? %>
+    <a class="icon icon-download"
+       href="#"
+       data-id="<%= job.id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "artifacts",
+        project_id: @project.id,
+        job_path: job.path,
+        id: job.last_build_id)%>"
+    ><%= l(:label_jenkins_artifacts) %></a>
+    <% end %>
+    <% end %>
+  </td>
+</tr>
+
+<% end %> <!-- each -->

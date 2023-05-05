@@ -1,0 +1,82 @@
+<%= stylesheet_link_tag("jenkins_job", plugin: "redmine_jenkins_job") %>
+<%= javascript_include_tag("jenkins_job", plugin: "redmine_jenkins_job") %>
+
+<div class="wiki">
+
+  <h2><%= l(:title_jenkins_job) %></h2>
+
+  <table class="list">
+    <thead>
+      <tr>
+        <th class="no-sort"><%= l(:field_name) %></th>
+        <th class="no-sort"><%= l(:field_updated_on) %></th>
+        <th class="no-sort"><%= l(:field_status) %></th>
+        <th class="no-sort"><%= l(:label_jenkins_operation) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(partial: 'jenkins_job/jobs') %>
+    </tbody>
+  </table>
+
+</div>
+
+<dialog id="artifactModal" class="jenkins">
+  <div class="container">
+    <header>
+      <h1><%= l(:label_jenkins_artifacts) %></h1>
+    </header>
+    <section>
+    </section>
+    <footer>
+      <form method="dialog">
+        <button value="cancel"><%= l(:button_cancel) %></button>
+      </form>
+    </footer>
+  </div>
+</dialog>
+
+<dialog id="outputModal" class="jenkins">
+  <div class="container">
+    <header>
+      <h1><%= l(:label_jenkins_operation_stdout) %></h1>
+    </header>
+    <section>
+    </section>
+    <footer>
+      <form method="dialog">
+        <button value="cancel"><%= l(:button_cancel) %></button>
+      </form>
+    </footer>
+  </div>
+</dialog>
+
+<dialog id="loadingModal" class="jenkins small">
+  <div class="container">
+    <header>
+      <h1><%= l(:label_jenkins_inprogress) %></h1>
+    </header>
+    <section>
+    </section>
+  </div>
+</dialog>
+
+<script type="text/javascript">
+
+var jenkinsLoadingMessage = '<%= l(:hint_jenkins_loading) %>';
+
+document.addEventListener('DOMContentLoaded', function() {
+  for (const ex of document.querySelectorAll('span.expander')) {
+    ex.addEventListener('click', toggleJob);
+  }
+
+  for (const row of document.querySelectorAll('td.operation')) {
+    for (const action of row.querySelectorAll('a')) {
+      action.addEventListener('click', doAction);
+    }
+  }
+
+  setTimeout(refreshInProgressBuild, 3000);
+});
+
+</script>

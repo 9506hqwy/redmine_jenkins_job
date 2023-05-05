@@ -1,0 +1,24 @@
+<div class="wiki">
+
+<% if @artifacts.present? %>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th class="no-sort"><%= l(:field_filename) %></th>
+      <th class="no-sort"><%= l(:field_filesize) %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @artifacts.each do |artifact| %>
+    <tr>
+      <td class="name"><a class="external" href="<%= artifact.browse_url %>"><%= artifact.file_name %></a></td>
+      <td class="size"><%= number_to_human_size(artifact.size) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% end %> <!-- if -->
+
+</div>

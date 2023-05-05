@@ -1,0 +1,82 @@
+<% if @builds.present? %>
+
+<% @builds.each do |build| %>
+
+<tr id="<%= @job_id %>-<%= build.id %>" class="jenkins-build <%= @job_id %>">
+  <td class="name" style="padding-left: 18px;">
+    <a class="external" href="<%= build.browse_url %>" target="_blank"><%= build.display_name %></a>
+  </td>
+
+  <td class="datetime"><%= format_time(build.datetime) %></td>
+
+  <td class="result <%= build.building ? 'jenkins-build-inprogress' : '' %>">
+    <% if build.building %>
+      <span class="icon icon-warning">In Progress</span>
+    <% else %>
+      <% case build.result %>
+      <% when 'SUCCESS' then %>
+        <span class="icon icon-ok"><%= build.result %></span>
+      <% when 'FAILURE' then %>
+        <span class="icon icon-error"><%= build.result %></span>
+      <% when 'ABORTED' then %>
+        <span class="icon icon-warning"><%= build.result %></span>
+      <% else %>
+        &nbsp;
+      <% end %>
+    <% end %>
+  </td>
+
+  <td class="operation">
+    <% if build.building %>
+    <a class="icon icon-reload"
+       href="#"
+       data-id="<%= build.id %>"
+       data-job-id="<%= @job_id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "build",
+        project_id: @project.id,
+        job_path: @job_path,
+        id: build.id)%>"
+    ><%= l(:label_jenkins_operation_refresh) %></a>
+    &nbsp;
+    <% end %>
+
+    <% unless build.building %>
+    <a class="icon icon-file text-plain"
+       href="#"
+       data-id="<%= build.id %>"
+       data-job-id="<%= @job_id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "output",
+        project_id: @project.id,
+        job_path: @job_path,
+        id: build.id)%>"
+    ><%= l(:label_jenkins_operation_stdout) %></a>
+    &nbsp;
+
+    <% if build.artifacts.any? %>
+    <a class="icon icon-download"
+       href="#"
+       data-id="<%= build.id %>"
+       data-job-id="<%= @job_id %>"
+       data-url="<%=
+      url_for(
+        controller: "jenkins_job",
+        action: "artifacts",
+        project_id: @project.id,
+        job_path: @job_path,
+        id: build.id)%>"
+    ><%= l(:label_jenkins_artifacts) %></a>
+    <% end %>  <!-- if -->
+    <% end %> <!-- unless -->
+  </td>
+</tr>
+
+<% end %> <!-- each -->
+
+<% end %> <!-- if -->
+

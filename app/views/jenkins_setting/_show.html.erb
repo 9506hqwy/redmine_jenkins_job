@@ -1,0 +1,139 @@
+<!-- プロジェクト設定のタブ表示 -->
+<%
+  setting = @project.jenkins_setting || JenkinsSetting.new
+%>
+
+<%= stylesheet_link_tag("jenkins_job", plugin: "redmine_jenkins_job") %>
+<%= javascript_include_tag("jenkins_job", plugin: "redmine_jenkins_job") %>
+
+<%= form_tag({controller: :jenkins_setting, action: :update, project_id: @project.id},
+             id: 'jenkins_job',
+             method: 'PUT') do %>
+
+<fieldset id="jenkins-server-fields" class="box tabular settings">
+  <legend><%= check_box_tag('enable', true, setting.url.present?, id: 'jenkins-enable') %> Server</legend>
+
+  <p>
+    <label><%= l(:label_jenkins_url) %>:</label>
+    <input name="url" type="url" style="width: 100%" value="<%= setting.url %>" required="required" />
+  </p>
+
+  <p>
+    <label><%= l(:label_jenkins_skip_ssl_verify) %>:</label>
+    <%= check_box_tag('skip_ssl_verify', true, setting.skip_ssl_verify) %>
+  </p>
+
+  <p>
+    <label><%= l(:label_jenkins_link_url) %>:</label>
+    <input name="link_url" type="url" style="width: 100%" value="<%= setting.link_url %>" />
+  </p>
+
+  <p>
+    <label><%= l(:label_jenkins_username) %>:</label>
+    <input name="username" type="text" style="width: 100%" value="<%= setting.username %>" required="required" />
+  </p>
+
+  <p>
+    <label><%= l(:label_jenkins_secret) %>:</label>
+    <input name="secret" type="password" style="width: 40%" value="<%= setting.secret.present? ? '*****' : nil %>"  required="required" />
+    <%= check_box_tag('enable-secret', true, setting.secret.blank?, id: 'jenkins-enable-secret') %>
+  </p>
+</fieldset>
+
+<%
+  if setting.url.present?
+
+  @version = ''
+  @jobs = []
+  @monitoring_jobs = setting.monitoring_jobs || []
+
+  begin
+    @version = setting.version
+    @jobs = setting.jobs
+  rescue => e
+    Rails.logger.error(e)
+    flash[:error] = e.message
+  end
+%>
+
+<fieldset class="box tabular settings">
+  <legend>Information</legend>
+
+  <p>
+    <label><%= l(:label_jenkins_version) %>:</label>
+    <span><%= @version %></span>
+  </p>
+</fieldset>
+
+<p><%= l(:hint_jenkins_monitoring_jobs) %></p>
+
+<div class="autoscroll">
+  <table class="list entries" id="jenkins-job-list">
+    <thead>
+      <tr>
+        <th class="checkbox"></th>
+        <th><%= l(:field_name) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(partial: 'jenkins_setting/jobs') %>
+    </tbody>
+  </table>
+</div>
+
+<div id="monitoring-job-list" style="display: none">
+  <%= hidden_field_tag('monitoring_jobs[]', '') %>
+
+  <% @monitoring_jobs.each do |job_path| %>
+    <%= check_box_tag('monitoring_jobs[]', job_path, true, id: "enable-#{RedmineJenkinsJob::Utils.job_id(job_path)}") %>
+  <% end %>
+</div>
+
+<% end %> <!-- if -->
+
+<p>
+  <%= submit_tag l(:button_save) %>
+</p>
+
+<% end %> <!-- form -->
+
+<dialog id="loadingModal" class="jenkins small">
+  <div class="container">
+    <header>
+      <h1><%= l(:label_jenkins_inprogress) %></h1>
+    </header>
+    <section>
+    </section>
+  </div>
+</dialog>
+
+<script type="text/javascript">
+
+var jenkinsLoadingMessage = '<%= l(:hint_jenkins_loading) %>';
+
+document.addEventListener('DOMContentLoaded', function() {
+  for (const ex of document.querySelectorAll('span.expander')) {
+    ex.addEventListener('click', toggleFolder);
+  }
+
+  const jobList = document.getElementById('jenkins-job-list');
+  if (jobList != null) {
+    for (const ex of jobList.querySelectorAll('input[type="checkbox"]')) {
+      ex.addEventListener('change', toggleFileCheckbox);
+    }
+  }
+
+  const enableServer = document.getElementById('jenkins-enable');
+  enableServer.addEventListener('change', function(e) {
+    toggleServer(e.target);
+  });
+  toggleServer(enableServer);
+
+  const enableServerSecret = document.getElementById('jenkins-enable-secret');
+  enableServerSecret.addEventListener('change', function(e) {
+    toggleServerSecret(e.target);
+  });
+  toggleServerSecret(enableServerSecret);
+});
+
+</script>

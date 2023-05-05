@@ -1,0 +1,48 @@
+<% if @jobs.present? %>
+
+<% @jobs.each do |job| %>
+
+<%
+   depth = params[:depth].to_i
+%>
+
+<tr id="<%= job.id %>" data-job-path="<%= job.path %>" class="
+  <%= @folder_id %>
+  <%= job.folder? ? 'collapsed' : '' %>
+  <%= job.folder? ? 'jenkins-folder' : 'jenkins-job' %>">
+
+  <td>
+    <% unless job.folder? %>
+    <%= check_box_tag("toggle-#{job.id}", true, @monitoring_jobs.include?(job.path)) %>
+    <% end %>
+  </td>
+
+  <td class="name" style="padding-left: <%= 18 * depth %>px;">
+    <% if job.folder? %>
+    <span class="expander icon icon-collapsed"
+          data-id="<%= job.id %>"
+          data-url="<%=
+      url_for(
+        controller: "jenkins_setting",
+        action: "jobs",
+        project_id: @project.id,
+        folder_path: job.path,
+        depth: depth + 1)%>"
+    >&nbsp;</span>
+    <% end %>
+
+    <span class="icon <%= job.folder? ? 'icon-folder' : 'icon-file' %>">
+      <%= job.name %>
+    </span>
+
+    <% if job.folder? %>
+    <% count = @monitoring_jobs.count { |j| j.start_with?(job.path) } %>
+    (<span id="<%= "count-#{job.id}" %>"><%= count %></span>)
+    <% end %>
+  </td>
+
+</tr>
+
+<% end %> <!-- each -->
+
+<% end %> <!-- if -->

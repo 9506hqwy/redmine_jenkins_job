@@ -1,0 +1,21 @@
+ja:
+  jenkins_setting: Jenkins
+  hint_jenkins_monitoring_jobs: 以下のツリーで操作する Jenkins のジョブを選択します。
+  hint_jenkins_loading: Jenkins から情報を取得しています。
+  label_jenkins_artifacts: 成果物
+  label_jenkins_inprogress: 処理中
+  label_jenkins_link_url: リンク URL
+  label_jenkins_operation: 操作
+  label_jenkins_operation_exec: 実行
+  label_jenkins_operation_refresh: 更新
+  label_jenkins_operation_stdout: 標準出力
+  label_jenkins_secret: パスワードまたはトークン
+  label_jenkins_skip_ssl_verify: SSLサーバ証明書の検証をスキップ
+  label_jenkins_url: URL
+  label_jenkins_username: ユーサ名
+  label_jenkins_version: バージョン
+  permission_edit_jenkins_job: ジョブ実行
+  permission_edit_jenkins_setting: 設定更新
+  permission_view_jenkins_job: ジョブ参照
+  project_module_jenkins_job: Jenkins
+  title_jenkins_job: Jenkins ジョブ

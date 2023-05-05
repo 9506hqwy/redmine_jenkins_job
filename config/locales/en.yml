@@ -1,0 +1,21 @@
+en:
+  jenkins_setting: Jenkins
+  hint_jenkins_loading: Acquire information from Jenkins.
+  hint_jenkins_monitoring_jobs: Select for operating Jenkins's job in the below tree.
+  label_jenkins_artifacts: Artifacts
+  label_jenkins_inprogress: In Progress
+  label_jenkins_link_url: Link URL
+  label_jenkins_operation: Operation
+  label_jenkins_operation_exec: Execute
+  label_jenkins_operation_refresh: Refresh
+  label_jenkins_operation_stdout: Output
+  label_jenkins_secret: Password or Token
+  label_jenkins_skip_ssl_verify: Skip SSL certificate verification
+  label_jenkins_url: URL
+  label_jenkins_username: Username
+  label_jenkins_version: Version
+  permission_edit_jenkins_job: Execute job
+  permission_edit_jenkins_setting: Edit Setting
+  permission_view_jenkins_job: View job
+  project_module_jenkins_job: Jenkins
+  title_jenkins_job: Jenkins Jobs

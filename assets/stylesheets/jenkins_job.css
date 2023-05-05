@@ -1,0 +1,62 @@
+#jenkins-job-list th.checkbox {
+    width: 30px;
+}
+
+#jenkins-job-list td.name span.icon-file {
+    margin-left: 18px;
+}
+
+.jenkins-build-inprogress {
+    animation: blinking 1s linear infinite;
+}
+
+@keyframes blinking {
+    from {
+        opacity: 0;
+    }
+    50% {
+	opacity: 1;
+    }
+    to {
+	opacity: 0;
+    }
+}
+
+dialog.jenkins {
+    height: 50vh;
+    width: 50vw;
+    padding: 0px;
+    border: 1px solid #bbb;
+}
+
+dialog.jenkins.small {
+    height: 20vh;
+    width: 20vw;
+    padding: 0px;
+    border: 1px solid #bbb;
+}
+
+dialog.jenkins .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+dialog.jenkins header {
+    height: 40px;
+    padding: 5px 0 5px 10px;
+    background-color:#628DB6;
+    color:#f8f8f8;
+}
+
+dialog.jenkins section {
+    height: 100%;
+    padding: 5px;
+    overflow: auto;
+}
+
+dialog.jenkins footer {
+    padding: 5px 0 5px 10px;
+    border-top: 1px solid #bbb;
+}

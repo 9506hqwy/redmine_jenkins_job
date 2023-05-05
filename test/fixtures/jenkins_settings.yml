@@ -1,0 +1,9 @@
+jenkins_settings_001:
+  project_id: 5
+  url: https://127.0.0.1:8080
+  link_url: https://jenkins:8080
+  skip_ssl_verify: false
+  username: admin
+  secret: token
+  monitoring_jobs: |
+    - BuildA
