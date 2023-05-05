@@ -125,29 +125,45 @@ function hideFolder(folder) {
 function collapseFolderRow(row) {
     hideFolder(row);
 
+    const expander = row.querySelector('.expander');
+    expander.classList.remove('icon-expended');
+    expander.classList.remove('icon-expanded');
+    expander.classList.add('icon-collapsed');
+
     row.classList.remove('open');
-    row.querySelector('.expander').classList.replace('icon-expended', 'icon-collapsed');
     row.classList.add('collapsed');
 }
 
 function collapseJobRow(row) {
     hideBuild(row);
 
-    row.querySelector('.expander').classList.replace('icon-expended', 'icon-collapsed');
+    const expander = row.querySelector('.expander');
+    expander.classList.remove('icon-expended');
+    expander.classList.remove('icon-expanded');
+    expander.classList.add('icon-collapsed');
+
     row.classList.add('collapsed');
 }
 
 function expandFolderRow(row) {
     row.classList.remove('collapsed');
-    row.querySelector('.expander').classList.replace('icon-collapsed', 'icon-expended');
     row.classList.add('open');
+
+    const expander = row.querySelector('.expander');
+    expander.classList.remove('icon-collapsed');
+    expander.classList.add('icon-expended');
+    expander.classList.add('icon-expanded');
 
     displayFolder(row);
 }
 
 function expandJobRow(row) {
     row.classList.remove('collapsed');
-    row.querySelector('.expander').classList.replace('icon-collapsed', 'icon-expended');
+
+    const expander = row.querySelector('.expander');
+    expander.classList.remove('icon-collapsed');
+    expander.classList.add('icon-expended');
+    expander.classList.add('icon-expanded');
 
     displayBuild(row);
 }
