@@ -22,7 +22,11 @@
     }
 }
 
-a.icon.collapsible {
+#jenkins-job-list a.icon.collapsible {
+    text-decoration: none;
+}
+
+.jenkins-job a.icon.collapsible {
     text-decoration: none;
 }
 

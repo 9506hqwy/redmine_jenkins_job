@@ -66,11 +66,11 @@
 var jenkinsLoadingMessage = '<%= l(:hint_jenkins_loading) %>';
 
 document.addEventListener('DOMContentLoaded', function() {
-  for (const ex of document.querySelectorAll('.expander')) {
+  for (const ex of document.querySelectorAll('.jenkins-job .expander')) {
     ex.addEventListener('click', toggleJob);
   }
 
-  for (const row of document.querySelectorAll('td.operation')) {
+  for (const row of document.querySelectorAll('.jenkins-job td.operation')) {
     for (const action of row.querySelectorAll('a')) {
       action.addEventListener('click', doAction);
     }
