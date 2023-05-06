@@ -35,7 +35,7 @@
 
   <p>
     <label><%= l(:label_jenkins_secret) %>:</label>
-    <input name="secret" type="password" style="width: 40%" value="<%= setting.secret.present? ? '*****' : nil %>"  required="required" />
+    <input name="password" type="password" style="width: 40%" value="<%= setting.secret.present? ? '*****' : nil %>"  required="required" />
     <%= check_box_tag('enable-secret', true, setting.secret.blank?, id: 'jenkins-enable-secret') %>
   </p>
 </fieldset>

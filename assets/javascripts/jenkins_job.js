@@ -281,7 +281,7 @@ function toggleServer(target) {
 }
 
 function toggleServerSecret(target) {
-    const secret = document.getElementById('jenkins-server-fields').querySelector('input[name="secret"]');
+    const secret = document.getElementById('jenkins-server-fields').querySelector('input[name="password"]');
     secret.disabled = target.disabled || !target.checked;
 }
 

@@ -26,7 +26,7 @@ class JenkinsSettingController < ApplicationController
         setting.link_url = params[:link_url]
         setting.skip_ssl_verify = params[:skip_ssl_verify].present? && params[:skip_ssl_verify] != 'false'
         setting.username = params[:username]
-        setting.secret = params[:secret] if params[:secret].present?
+        setting.secret = params[:password] if params[:password].present?
         setting.monitoring_jobs = (params[:monitoring_jobs] || []).reject {|m| m.blank? }
 
         setting.version # test connectivity

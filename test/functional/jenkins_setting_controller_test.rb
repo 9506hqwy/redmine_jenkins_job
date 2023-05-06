@@ -84,7 +84,7 @@ class JenkinsSettingControllerTest < Redmine::ControllerTest
       link_url: 'https://jenkins:8080/',
       skip_ssl_verify: false,
       username: 'admin',
-      secret: 'token',
+      password: 'token',
       monitoring_jobs: ['A']
     }
 
@@ -115,7 +115,7 @@ class JenkinsSettingControllerTest < Redmine::ControllerTest
       link_url: 'https://jenkins:8080/',
       skip_ssl_verify: false,
       username: 'admin',
-      secret: 'token',
+      password: 'token',
       monitoring_jobs: ['A']
     }
 
@@ -137,7 +137,7 @@ class JenkinsSettingControllerTest < Redmine::ControllerTest
       link_url: 'http://jenkins:8080/',
       skip_ssl_verify: true,
       username: 'user',
-      secret: 'password',
+      password: 'password',
       monitoring_jobs: ['A']
     }
 
