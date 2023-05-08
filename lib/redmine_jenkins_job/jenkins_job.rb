@@ -2,6 +2,12 @@
 
 module RedmineJenkinsJob
   class JenkinsJob
+    @@container_classes = [
+      'com.cloudbees.hudson.plugins.folder.Folder',
+      'jenkins.branch.OrganizationFolder',
+      'org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject',
+    ]
+
     def initialize(client, job, link_url)
       @client = client
       @job = job
@@ -9,7 +15,7 @@ module RedmineJenkinsJob
     end
 
     def folder?
-      @job['_class'] == 'com.cloudbees.hudson.plugins.folder.Folder'
+      @@container_classes.include?(@job['_class'])
     end
 
     def name

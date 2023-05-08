@@ -46,7 +46,59 @@ class JenkinsSettingControllerTest < Redmine::ControllerTest
     WebMock.disable!
   end
 
-  def test_jobs_job
+  def test_jobs_organizationfolder
+    WebMock.enable!
+
+    project = Project.find(5)
+    project.enable_module!(:jenkins_job)
+
+    query = RedmineJenkinsJob::Utils.job_query
+    stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
+      to_return(body: '{
+        "jobs": [{"_class": "jenkins.branch.OrganizationFolder", "name": "folder", "url": "https://jenkins:8080/job/test/job/folder/" }],
+        "url": "https://jenkins:8080/job/test/"}')
+
+    get :jobs, params: {
+      project_id: project.id,
+      folder_path: 'test/'
+    }
+
+    assert_response :success
+    assert_select 'tr.jenkins-folder'
+    assert_select 'a.expander'
+    assert_select 'span.icon-folder'
+    assert_select 'span#count-job-795910a0934fc2e0f30fe2806598d683'
+  ensure
+    WebMock.disable!
+  end
+
+  def test_jobs_multibranchpipeline
+    WebMock.enable!
+
+    project = Project.find(5)
+    project.enable_module!(:jenkins_job)
+
+    query = RedmineJenkinsJob::Utils.job_query
+    stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
+      to_return(body: '{
+        "jobs": [{"_class": "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject", "name": "folder", "url": "https://jenkins:8080/job/test/job/folder/" }],
+        "url": "https://jenkins:8080/job/test/"}')
+
+    get :jobs, params: {
+      project_id: project.id,
+      folder_path: 'test/'
+    }
+
+    assert_response :success
+    assert_select 'tr.jenkins-folder'
+    assert_select 'a.expander'
+    assert_select 'span.icon-folder'
+    assert_select 'span#count-job-795910a0934fc2e0f30fe2806598d683'
+  ensure
+    WebMock.disable!
+  end
+
+  def test_jobs_freestylebuild
     WebMock.enable!
 
     project = Project.find(5)
