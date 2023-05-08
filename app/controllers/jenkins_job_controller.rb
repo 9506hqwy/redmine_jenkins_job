@@ -10,11 +10,11 @@ class JenkinsJobController < ApplicationController
   def index
     setting = @project.jenkins_setting || JenkinsSetting.new
 
-    @jobs = []
+    jobs = []
     not_found = []
     (setting.monitoring_jobs || []).each do |job_path|
       begin
-        @jobs.push(client.job(job_path))
+        jobs.push(client.job(job_path))
       rescue Net::HTTPExceptions => e
         if e.response.code == '404'
           not_found.push(job_path)
@@ -30,6 +30,8 @@ class JenkinsJobController < ApplicationController
       setting.monitoring_jobs = setting.monitoring_jobs.reject! { |j| not_found.include?(j) }
       setting.save
     end
+
+    @jobs = jobs.sort_by {|j| j.full_name}
   end
 
   def artifacts

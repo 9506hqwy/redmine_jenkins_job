@@ -46,6 +46,36 @@ class JenkinsSettingControllerTest < Redmine::ControllerTest
     WebMock.disable!
   end
 
+  def test_jobs_folder_x2
+    WebMock.enable!
+
+    project = Project.find(5)
+    project.enable_module!(:jenkins_job)
+
+    query = RedmineJenkinsJob::Utils.job_query
+    stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
+      to_return(body: '{
+        "jobs": [
+          {"_class": "com.cloudbees.hudson.plugins.folder.Folder", "name": "folder2", "url": "https://jenkins:8080/job/test/job/folder2/" },
+          {"_class": "com.cloudbees.hudson.plugins.folder.Folder", "name": "folder1", "url": "https://jenkins:8080/job/test/job/folder1/" }
+        ],
+        "url": "https://jenkins:8080/job/test/"}')
+
+    get :jobs, params: {
+      project_id: project.id,
+      folder_path: 'test/'
+    }
+
+    assert_response :success
+    assert_select 'tr.jenkins-folder', 2
+    assert_select 'a.expander', 2
+    assert_select 'span.icon-folder', 2
+    assert_select 'span#count-job-e6e0d6123666eee348b14f2709a1953a', 1
+    assert_select 'span#count-job-593358c501b792e96acb914734718f3c', 1
+  ensure
+    WebMock.disable!
+  end
+
   def test_jobs_organizationfolder
     WebMock.enable!
 

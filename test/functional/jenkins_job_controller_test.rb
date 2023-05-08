@@ -46,6 +46,29 @@ class JenkinsJobControllerTest < Redmine::ControllerTest
     WebMock.disable!
   end
 
+  def test_index_x2
+    WebMock.enable!
+
+    @project.jenkins_setting.monitoring_jobs = ['job/test2/', 'job/test1/']
+    @project.jenkins_setting.save!
+
+    query = RedmineJenkinsJob::Utils.job_query
+    stub_request(:get, "https://127.0.0.1:8080/job/test1/api/json?#{query}").
+      to_return(body: '{"fileName": "test1", "name": "name", "url": "https://jenkins:8080/job/test1/" }')
+    stub_request(:get, "https://127.0.0.1:8080/job/test2/api/json?#{query}").
+      to_return(body: '{"fileName": "test2", "name": "name", "url": "https://jenkins:8080/job/test2/" }')
+
+    get :index, params: {
+      project_id: @project.id
+    }
+
+    assert_response :success
+    assert_select 'tr#job-b596ea1306ee69268ac23a953d280598', 1
+    assert_select 'tr#job-bb0091c7c943b844b575977e2c45f390', 1
+  ensure
+    WebMock.disable!
+  end
+
   def test_index_not_found
     WebMock.enable!
 

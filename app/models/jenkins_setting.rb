@@ -31,7 +31,7 @@ class JenkinsSetting < ActiveRecord::Base
   def jobs
     return if url.blank?
 
-    @root = client.root if @root.blank?
+    @root = client.root.sort_by {|j| [j.folder? ? 1 : 2, j.name]} if @root.blank?
 
     @root
   end

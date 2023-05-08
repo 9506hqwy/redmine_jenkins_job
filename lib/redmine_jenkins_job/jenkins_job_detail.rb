@@ -64,9 +64,11 @@ module RedmineJenkinsJob
     end
 
     def jobs
-      @job['jobs'].map do |child|
+      jobs = @job['jobs'].map do |child|
         JenkinsJob.new(@client, child, @link_url)
       end
+
+      jobs.sort_by {|j| [j.folder? ? 1 : 2, j.name]}
     end
 
     def exec
