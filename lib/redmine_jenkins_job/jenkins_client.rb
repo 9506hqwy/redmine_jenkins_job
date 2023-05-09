@@ -49,7 +49,7 @@ module RedmineJenkinsJob
       end
       response = send(request)
       build_url = response['Location']
-      build_path = Utils.rel_path(build_url, @link_url)
+      build_path = Utils.rel_path(build_url, @link_url.presence || @url)
       build(build_path)
     end
 
