@@ -221,16 +221,21 @@ function toggleFolder(e) {
     showInProgress(jenkinsLoadingMessage);
     row.classList.add('loading');
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
+        if (response.ok) {
+            response.text().then(function (data) {
+                closeInProgress();
+
+                addFolderRow(row, data);
+
+                row.classList.remove('loading');
+                row.classList.add('loaded');
+
+                expandFolderRow(row);
+            });
+        } else {
             closeInProgress();
-
-            addFolderRow(row, data);
-
-            row.classList.remove('loading');
-            row.classList.add('loaded');
-
-            expandFolderRow(row);
-        });
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
@@ -256,16 +261,21 @@ function toggleJob(e) {
     showInProgress(jenkinsLoadingMessage);
     row.classList.add('loading');
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
+        if (response.ok) {
+            response.text().then(function (data) {
+                closeInProgress();
+
+                addBuildRow(row, data);
+
+                row.classList.remove('loading');
+                row.classList.add('loaded');
+
+                expandJobRow(row);
+            });
+        } else {
             closeInProgress();
-
-            addBuildRow(row, data);
-
-            row.classList.remove('loading');
-            row.classList.add('loaded');
-
-            expandJobRow(row);
-        });
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
@@ -298,11 +308,16 @@ function execBuild(job, e) {
 
     showInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
-            closeInProgress();
+        if (response.ok) {
+            response.text().then(function (data) {
+                closeInProgress();
 
-            job.querySelector('a.icon-reload').click();
-        });
+                job.querySelector('a.icon-reload').click();
+            });
+        } else {
+            closeInProgress();
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
@@ -315,11 +330,16 @@ function refreshJob(job, e) {
 
     showInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
-            closeInProgress();
+        if (response.ok) {
+            response.text().then(function (data) {
+                closeInProgress();
 
-            replaceJobRow(job, data);
-        });
+                replaceJobRow(job, data);
+            });
+        } else {
+            closeInProgress();
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
@@ -331,11 +351,16 @@ function refreshBuild(build, e) {
 
     //showInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
-            //closeInProgress();
+        if (response.ok) {
+            response.text().then(function (data) {
+                //closeInProgress();
 
-            replaceBuildRow(build, data);
-        });
+                replaceBuildRow(build, data);
+            });
+        } else {
+            closeInProgress();
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
@@ -366,13 +391,18 @@ function displayArtifact(e) {
 
     showInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
-            closeInProgress();
+        if (response.ok) {
+            response.text().then(function (data) {
+                closeInProgress();
 
-            const modal = document.getElementById('artifactModal');
-            modal.querySelector("section").innerHTML = data;
-            modal.showModal();
-        });
+                const modal = document.getElementById('artifactModal');
+                modal.querySelector("section").innerHTML = data;
+                modal.showModal();
+            });
+        } else {
+            closeInProgress();
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
@@ -384,13 +414,18 @@ function displayOutput(e) {
 
     showInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
-        response.text().then(function (data) {
-            closeInProgress();
+        if (response.ok) {
+            response.text().then(function (data) {
+                closeInProgress();
 
-            const modal = document.getElementById('outputModal');
-            modal.querySelector("section").innerText = data;
-            modal.showModal();
-        });
+                const modal = document.getElementById('outputModal');
+                modal.querySelector("section").innerText = data;
+                modal.showModal();
+            });
+        } else {
+            closeInProgress();
+            alert(`${response.status} : ${response.statusText}`);
+        }
     });
 }
 
