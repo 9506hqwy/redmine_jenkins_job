@@ -70,15 +70,20 @@ This plugin provides a Jenkins's job operation.
 
   1. Decrypt ciphered password or token.
      ```sh
-     rails redmine_jenkins_job:db:decrypt RAILS_ENV=production
+     bundle exec rails redmine_jenkins_job:db:decrypt RAILS_ENV=production
      ```
 
   2. Change value of `database_cipher_key`.
 
   3. Encrypt plain password or token.
      ```sh
-     rails redmine_jenkins_job:db:ebcrypt RAILS_ENV=production
+     bundle exec rails redmine_jenkins_job:db:ebcrypt RAILS_ENV=production
      ```
+
+- If use this plugin behind nginx proxy, need to configure nginx for avoiding decoding URL percent encoding
+  because of contains '/' in Jenkins's job identifier. e.g. use `$request_uri`.
+
+- Need to re-enable job in [Jenkins] tab after rename or move job another folder.
 
 ## Tested Environment
 
