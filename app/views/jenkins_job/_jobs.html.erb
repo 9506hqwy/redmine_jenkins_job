@@ -12,7 +12,7 @@
         project_id: @project.id,
         job_path: job.path)%>"
     >&nbsp;</a>
-    <a class="external" href="<%= job.browse_url %>" target="_blank"><%= job.full_name %></a>
+    <a class="external" href="<%= job.browse_url %>" target="_blank"><%= Addressable::URI.unescape(job.full_name) %></a>
   </td>
 
   <td class="datetime"><%= format_time(job.last_build_datetime) %></td>

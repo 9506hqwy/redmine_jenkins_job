@@ -33,7 +33,7 @@
     <% end %>
 
     <span class="icon <%= job.folder? ? 'icon-folder' : 'icon-file' %>">
-      <%= job.name %>
+      <%= Addressable::URI.unescape(job.name) %>
     </span>
 
     <% if job.folder? %>
