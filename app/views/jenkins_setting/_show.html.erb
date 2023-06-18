@@ -113,27 +113,27 @@ var jenkinsLoadingMessage = '<%= l(:hint_jenkins_loading) %>';
 
 document.addEventListener('DOMContentLoaded', function() {
   for (const ex of document.querySelectorAll('#jenkins-job-list .expander')) {
-    ex.addEventListener('click', toggleFolder);
+    ex.addEventListener('click', toggleJenkinsFolder);
   }
 
   const jobList = document.getElementById('jenkins-job-list');
   if (jobList != null) {
     for (const ex of jobList.querySelectorAll('input[type="checkbox"]')) {
-      ex.addEventListener('change', toggleFileCheckbox);
+      ex.addEventListener('change', toggleJenkinsFileCheckbox);
     }
   }
 
   const enableServer = document.getElementById('jenkins-enable');
   enableServer.addEventListener('change', function(e) {
-    toggleServer(e.target);
+    toggleJenkinsServer(e.target);
   });
-  toggleServer(enableServer);
+  toggleJenkinsServer(enableServer);
 
   const enableServerSecret = document.getElementById('jenkins-enable-secret');
   enableServerSecret.addEventListener('change', function(e) {
-    toggleServerSecret(e.target);
+    toggleJenkinsServerSecret(e.target);
   });
-  toggleServerSecret(enableServerSecret);
+  toggleJenkinsServerSecret(enableServerSecret);
 });
 
 </script>

@@ -1,15 +1,15 @@
-function addBuildRow(parent, data) {
+function addJenkinsBuildRow(parent, data) {
     const container = document.createElement('tbody');
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
         for (const ex of child.querySelectorAll('.expander')) {
-            ex.addEventListener('click', toggleJob);
+            ex.addEventListener('click', toggleJenkinsJob);
         }
 
         for (const row of container.querySelectorAll('td.operation')) {
             for (const action of row.querySelectorAll('a')) {
-                action.addEventListener('click', doAction);
+                action.addEventListener('click', doJenkinsAction);
             }
         }
 
@@ -18,17 +18,17 @@ function addBuildRow(parent, data) {
     }
 }
 
-function addFolderRow(parent, data) {
+function addJenkinsFolderRow(parent, data) {
     const container = document.createElement('tbody');
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
         for (const ex of child.querySelectorAll('.expander')) {
-            ex.addEventListener('click', toggleFolder);
+            ex.addEventListener('click', toggleJenkinsFolder);
         }
 
         for (const ex of child.querySelectorAll('input[type="checkbox"]')) {
-            ex.addEventListener('change', toggleFileCheckbox);
+            ex.addEventListener('change', toggleJenkinsFileCheckbox);
         }
 
         parent.after(child);
@@ -36,18 +36,18 @@ function addFolderRow(parent, data) {
     }
 }
 
-function replaceBuildRow(target, data) {
+function replaceJenkinsBuildRow(target, data) {
     const container = document.createElement('tbody');
     container.innerHTML = data;
 
     for (const child of container.querySelectorAll('tr')) {
         for (const ex of child.querySelectorAll('.expander')) {
-            ex.addEventListener('click', toggleJob);
+            ex.addEventListener('click', toggleJenkinsJob);
         }
 
         for (const row of container.querySelectorAll('td.operation')) {
             for (const action of row.querySelectorAll('a')) {
-                action.addEventListener('click', doAction);
+                action.addEventListener('click', doJenkinsAction);
             }
         }
 
@@ -55,8 +55,8 @@ function replaceBuildRow(target, data) {
     }
 }
 
-function replaceJobRow(job, data) {
-    collapseJobRow(job);
+function replaceJenkinsJobRow(job, data) {
+    collapseJenkinsJobRow(job);
 
     for (var build of document.querySelectorAll(`.${job.id}`)) {
         build.remove();
@@ -67,12 +67,12 @@ function replaceJobRow(job, data) {
 
     for (const child of container.querySelectorAll('tr')) {
         for (const ex of child.querySelectorAll('.expander')) {
-            ex.addEventListener('click', toggleJob);
+            ex.addEventListener('click', toggleJenkinsJob);
         }
 
         for (const row of container.querySelectorAll('td.operation')) {
             for (const action of row.querySelectorAll('a')) {
-                action.addEventListener('click', doAction);
+                action.addEventListener('click', doJenkinsAction);
             }
         }
 
@@ -80,50 +80,50 @@ function replaceJobRow(job, data) {
     }
 }
 
-function displayBuild(job) {
+function displayJenkinsBuild(job) {
     for (const child of document.querySelectorAll(`.${job.id}`)) {
         if (!child.classList.contains('collapsed')) {
-            displayBuild(child);
+            displayJenkinsBuild(child);
         }
 
         child.style.display = '';
     }
 }
 
-function displayFolder(folder) {
+function displayJenkinsFolder(folder) {
     for (const child of document.querySelectorAll(`.${folder.id}`)) {
         if (child.classList.contains('jenkins-folder') &&
             !child.classList.contains('collapsed')) {
-            displayFolder(child);
+            displayJenkinsFolder(child);
         }
 
         child.style.display = '';
     }
 }
 
-function hideBuild(job) {
+function hideJenkinsBuild(job) {
     for (const child of document.querySelectorAll(`.${job.id}`)) {
         if (!child.classList.contains('collapsed')) {
-            hideBuild(child);
+            hideJenkinsBuild(child);
         }
 
         child.style.display = 'none';
     }
 }
 
-function hideFolder(folder) {
+function hideJenkinsFolder(folder) {
     for (const child of document.querySelectorAll(`.${folder.id}`)) {
         if (child.classList.contains('jenkins-folder') &&
             !child.classList.contains('collapsed')) {
-            hideFolder(child);
+            hideJenkinsFolder(child);
         }
 
         child.style.display = 'none';
     }
 }
 
-function collapseFolderRow(row) {
-    hideFolder(row);
+function collapseJenkinsFolderRow(row) {
+    hideJenkinsFolder(row);
 
     const expander = row.querySelector('.expander');
     expander.classList.remove('icon-expended');
@@ -135,8 +135,8 @@ function collapseFolderRow(row) {
     row.classList.add('collapsed');
 }
 
-function collapseJobRow(row) {
-    hideBuild(row);
+function collapseJenkinsJobRow(row) {
+    hideJenkinsBuild(row);
 
     const expander = row.querySelector('.expander');
     expander.classList.remove('icon-expended');
@@ -147,7 +147,7 @@ function collapseJobRow(row) {
     row.classList.add('collapsed');
 }
 
-function expandFolderRow(row) {
+function expandJenkinsFolderRow(row) {
     row.classList.remove('collapsed');
     row.classList.add('open');
 
@@ -157,10 +157,10 @@ function expandFolderRow(row) {
     expander.classList.add('icon-expended');
     expander.classList.add('icon-expanded');
 
-    displayFolder(row);
+    displayJenkinsFolder(row);
 }
 
-function expandJobRow(row) {
+function expandJenkinsJobRow(row) {
     row.classList.remove('collapsed');
 
     const expander = row.querySelector('.expander');
@@ -169,10 +169,10 @@ function expandJobRow(row) {
     expander.classList.add('icon-expended');
     expander.classList.add('icon-expanded');
 
-    displayBuild(row);
+    displayJenkinsBuild(row);
 }
 
-function toggleFileCheckbox(e) {
+function toggleJenkinsFileCheckbox(e) {
     const jobId = e.target.id.slice('toggle-'.length);
     const job = document.getElementById(jobId);
 
@@ -191,18 +191,18 @@ function toggleFileCheckbox(e) {
         monitotingJob.checked = e.target.checked;
     }
 
-    refreshCount();
+    refreshJenkinsCount();
 }
 
-function toggleFolder(e) {
+function toggleJenkinsFolder(e) {
     e.preventDefault();
 
     const row = document.getElementById(e.target.dataset.id);
     if (!row.classList.contains('collapsed')) {
-        collapseFolderRow(row);
+        collapseJenkinsFolderRow(row);
         return;
     } else if (row.classList.contains('loaded')) {
-        expandFolderRow(row);
+        expandJenkinsFolderRow(row);
         return;
     } else if (row.classList.contains('loading')) {
         return;
@@ -218,36 +218,36 @@ function toggleFolder(e) {
         }
     };
 
-    showInProgress(jenkinsLoadingMessage);
+    showJenkinsInProgress(jenkinsLoadingMessage);
     row.classList.add('loading');
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                closeInProgress();
+                closeJenkinsInProgress();
 
-                addFolderRow(row, data);
+                addJenkinsFolderRow(row, data);
 
                 row.classList.remove('loading');
                 row.classList.add('loaded');
 
-                expandFolderRow(row);
+                expandJenkinsFolderRow(row);
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
-function toggleJob(e) {
+function toggleJenkinsJob(e) {
     e.preventDefault();
 
     const row = document.getElementById(e.target.dataset.id);
     if (!row.classList.contains('collapsed')) {
-        collapseJobRow(row);
+        collapseJenkinsJobRow(row);
         return;
     } else if (row.classList.contains('loaded')) {
-        expandJobRow(row);
+        expandJenkinsJobRow(row);
         return;
     } else if (row.classList.contains('loading')) {
         return;
@@ -258,28 +258,28 @@ function toggleJob(e) {
         cache: 'no-cache',
     };
 
-    showInProgress(jenkinsLoadingMessage);
+    showJenkinsInProgress(jenkinsLoadingMessage);
     row.classList.add('loading');
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                closeInProgress();
+                closeJenkinsInProgress();
 
-                addBuildRow(row, data);
+                addJenkinsBuildRow(row, data);
 
                 row.classList.remove('loading');
                 row.classList.add('loaded');
 
-                expandJobRow(row);
+                expandJenkinsJobRow(row);
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
-function toggleServer(target) {
+function toggleJenkinsServer(target) {
     for (const field of document.getElementById('jenkins-server-fields').querySelectorAll('input')) {
         if (field.id != 'jenkins-enable') {
             field.disabled = !target.checked;
@@ -287,15 +287,15 @@ function toggleServer(target) {
     }
 
     const enableServerSecret = document.getElementById('jenkins-enable-secret');
-    toggleServerSecret(enableServerSecret);
+    toggleJenkinsServerSecret(enableServerSecret);
 }
 
-function toggleServerSecret(target) {
+function toggleJenkinsServerSecret(target) {
     const secret = document.getElementById('jenkins-server-fields').querySelector('input[name="password"]');
     secret.disabled = target.disabled || !target.checked;
 }
 
-function execBuild(job, e) {
+function execJenkinsBuild(job, e) {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const option = {
@@ -306,65 +306,65 @@ function execBuild(job, e) {
         }
     };
 
-    showInProgress(jenkinsLoadingMessage);
+    showJenkinsInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                closeInProgress();
+                closeJenkinsInProgress();
 
                 job.querySelector('a.icon-reload').click();
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
 
-function refreshJob(job, e) {
+function refreshJenkinsJob(job, e) {
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
-    showInProgress(jenkinsLoadingMessage);
+    showJenkinsInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                closeInProgress();
+                closeJenkinsInProgress();
 
-                replaceJobRow(job, data);
+                replaceJenkinsJobRow(job, data);
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
-function refreshBuild(build, e) {
+function refreshJenkinsBuild(build, e) {
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
-    //showInProgress(jenkinsLoadingMessage);
+    //showJenkinsInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                //closeInProgress();
+                //closeJenkinsInProgress();
 
-                replaceBuildRow(build, data);
+                replaceJenkinsBuildRow(build, data);
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
-function refreshCount() {
+function refreshJenkinsCount() {
     const monitoringList = document.getElementById('monitoring-job-list');
     const enabledJobs = [...monitoringList.querySelectorAll('input[type="checkbox"]')]
         .filter(function (e) {
@@ -383,53 +383,53 @@ function refreshCount() {
     }
 }
 
-function displayArtifact(e) {
+function displayJenkinsArtifact(e) {
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
-    showInProgress(jenkinsLoadingMessage);
+    showJenkinsInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                closeInProgress();
+                closeJenkinsInProgress();
 
                 const modal = document.getElementById('artifactModal');
                 modal.querySelector("section").innerHTML = data;
                 modal.showModal();
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
-function displayOutput(e) {
+function displayJenkinsOutput(e) {
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
-    showInProgress(jenkinsLoadingMessage);
+    showJenkinsInProgress(jenkinsLoadingMessage);
     fetch(e.target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
-                closeInProgress();
+                closeJenkinsInProgress();
 
                 const modal = document.getElementById('outputModal');
                 modal.querySelector("section").innerText = data;
                 modal.showModal();
             });
         } else {
-            closeInProgress();
+            closeJenkinsInProgress();
             alert(`${response.status} : ${response.statusText}`);
         }
     });
 }
 
-function doAction(e) {
+function doJenkinsAction(e) {
     e.preventDefault();
 
     const jobId = e.target.dataset.jobId;
@@ -439,13 +439,13 @@ function doAction(e) {
         const job = document.getElementById(jobId);
 
         if (e.target.classList.contains('icon-add')) {
-            execBuild(job, e);
+            execJenkinsBuild(job, e);
         } else if (e.target.classList.contains('icon-reload')) {
-            refreshJob(job, e);
+            refreshJenkinsJob(job, e);
         } else if (e.target.classList.contains('text-plain')) {
-            displayOutput(e);
+            displayJenkinsOutput(e);
         } else if (e.target.classList.contains('icon-download')) {
-            displayArtifact(e);
+            displayJenkinsArtifact(e);
         } else {
             console.log(e);
         }
@@ -455,29 +455,29 @@ function doAction(e) {
         const build = document.getElementById(buildId);
 
         if (e.target.classList.contains('icon-reload')) {
-            refreshBuild(build, e);
+            refreshJenkinsBuild(build, e);
         } else if (e.target.classList.contains('text-plain')) {
-            displayOutput(e);
+            displayJenkinsOutput(e);
         } else if (e.target.classList.contains('icon-download')) {
-            displayArtifact(e);
+            displayJenkinsArtifact(e);
         } else {
             console.log(e);
         }
     }
 }
 
-function showInProgress(message) {
+function showJenkinsInProgress(message) {
     const modal = document.getElementById('loadingModal');
     modal.querySelector("section").innerText = message;
     modal.showModal();
 }
 
-function closeInProgress() {
+function closeJenkinsInProgress() {
     const modal = document.getElementById('loadingModal');
     modal.close();
 }
 
-function refreshInProgressBuild() {
+function refreshJenkinsInProgressBuild() {
     for (const build of document.querySelectorAll('tr.jenkins-build')) {
         const status = build.querySelector('td.jenkins-build-inprogress');
         if (status != null) {
@@ -485,5 +485,5 @@ function refreshInProgressBuild() {
         }
     }
 
-    setTimeout(refreshInProgressBuild, 3000);
+    setTimeout(refreshJenkinsInProgressBuild, 3000);
 }
