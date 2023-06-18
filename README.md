@@ -77,7 +77,7 @@ This plugin provides a Jenkins's job operation.
 
   3. Encrypt plain password or token.
      ```sh
-     bundle exec rails redmine_jenkins_job:db:ebcrypt RAILS_ENV=production
+     bundle exec rails redmine_jenkins_job:db:encrypt RAILS_ENV=production
      ```
 
 - If use this plugin behind nginx proxy, need to configure nginx for avoiding decoding URL percent encoding
