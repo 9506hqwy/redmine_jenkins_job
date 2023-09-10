@@ -4,7 +4,9 @@
 
 <tr id="<%= @job_id %>-<%= build.id %>" class="jenkins-build <%= @job_id %>">
   <td class="name" style="padding-left: 18px;">
-    <a class="external" href="<%= build.browse_url %>" target="_blank"><%= build.display_name %></a>
+    <a class="external" href="<%= build.browse_url %>" target="_blank" rel="noopener noreferrer">
+      <%= build.display_name %>
+    </a>
   </td>
 
   <td class="datetime"><%= format_time(build.datetime) %></td>
