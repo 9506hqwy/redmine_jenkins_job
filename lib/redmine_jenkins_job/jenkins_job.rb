@@ -2,7 +2,7 @@
 
 module RedmineJenkinsJob
   class JenkinsJob
-    @@container_classes = [
+    CONTAINER_CLASSES = [
       'com.cloudbees.hudson.plugins.folder.Folder',
       'jenkins.branch.OrganizationFolder',
       'org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject',
@@ -15,7 +15,7 @@ module RedmineJenkinsJob
     end
 
     def folder?
-      @@container_classes.include?(@job['_class'])
+      CONTAINER_CLASSES.include?(@job['_class'])
     end
 
     def name
