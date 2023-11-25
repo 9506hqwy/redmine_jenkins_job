@@ -93,6 +93,7 @@ This plugin provides a Jenkins's job operation.
   * 4.1
   * 4.2
   * 5.0
+  * 5.1
 * Database
   * SQLite
   * MySQL 5.7
