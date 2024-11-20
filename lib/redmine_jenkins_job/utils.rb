@@ -10,6 +10,13 @@ module RedmineJenkinsJob
       Migration = ActiveRecord::Migration
     end
 
+    if defined?(ApplicationRecord)
+      # https://www.redmine.org/issues/38975
+      ModelBase = ApplicationRecord
+    else
+      ModelBase = ActiveRecord::Base
+    end
+
     def self.build_query
       'tree=artifacts[fileName,relativePath],building,displayName,id,result,timestamp,url'
     end

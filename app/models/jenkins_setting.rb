@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class JenkinsSetting < ActiveRecord::Base
+class JenkinsSetting < RedmineJenkinsJob::Utils::ModelBase
   include Redmine::Ciphering
 
   belongs_to :project
