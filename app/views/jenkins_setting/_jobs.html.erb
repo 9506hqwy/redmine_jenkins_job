@@ -27,7 +27,7 @@
         controller: "jenkins_setting",
         action: "jobs",
         project_id: @project.id,
-        folder_path: job.path,
+        folder_path: job.path_for_url,
         depth: depth + 1)%>"
     >&nbsp;</a>
     <% end %>

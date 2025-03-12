@@ -6,7 +6,7 @@ class JenkinsSettingController < ApplicationController
   def jobs
     setting = @project.jenkins_setting
 
-    folder = setting.job(params[:folder_path])
+    folder = setting.job(RedmineJenkinsJob::Utils.decode_job_path(params[:folder_path]))
 
     @folder_id = folder.id
 

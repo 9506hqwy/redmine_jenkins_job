@@ -10,7 +10,7 @@
         controller: "jenkins_job",
         action: "builds",
         project_id: @project.id,
-        job_path: job.path)%>"
+        job_path: job.path_for_url)%>"
     >&nbsp;</a>
     <a class="external" href="<%= job.browse_url %>" target="_blank" rel="noopener noreferrer">
       <%= Addressable::URI.unescape(job.full_name) %>
@@ -42,7 +42,7 @@
         controller: "jenkins_job",
         action: "exec",
         project_id: @project.id,
-        job_path: job.path)%>"
+        job_path: job.path_for_url)%>"
     ><%= l(:label_jenkins_operation_exec) %></a>
     &nbsp;
     <% end %>
@@ -55,7 +55,7 @@
         controller: "jenkins_job",
         action: "job",
         project_id: @project.id,
-        job_path: job.path)%>"
+        job_path: job.path_for_url)%>"
     ><%= l(:label_jenkins_operation_refresh) %></a>
     &nbsp;
 
@@ -68,7 +68,7 @@
         controller: "jenkins_job",
         action: "output",
         project_id: @project.id,
-        job_path: job.path,
+        job_path: job.path_for_url,
         id: job.last_build_id)%>"
     ><%= l(:label_jenkins_operation_stdout) %></a>
     &nbsp;
@@ -82,7 +82,7 @@
         controller: "jenkins_job",
         action: "artifacts",
         project_id: @project.id,
-        job_path: job.path,
+        job_path: job.path_for_url,
         id: job.last_build_id)%>"
     ><%= l(:label_jenkins_artifacts) %></a>
     <% end %>

@@ -48,5 +48,22 @@ module RedmineJenkinsJob
       else job_id(job.path)
       end
     end
+
+    # https://guides.rubyonrails.org/routing.html#dynamic-segments
+    # By default, dynamic segments don't accept dots
+    #
+    # constraints で正規表現を指定して "." を許可できるが同時に "/" を許可すると
+    # 末尾以外のパラメータに許可すると意図しない値がマッチするため
+    # constraints は使用しない。
+    #
+    # Jenkins のジョブ名は "|" は使用できないため "." は "|" に置換した後で
+    # URL のパスとして使用する。
+    def self.decode_job_path(path)
+      path.gsub(/\|/, '.')
+    end
+
+    def self.encode_job_path(path)
+      path.gsub(/\./, '|')
+    end
   end
 end

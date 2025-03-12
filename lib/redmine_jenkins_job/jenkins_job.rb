@@ -30,6 +30,10 @@ module RedmineJenkinsJob
       Utils.rel_path(browse_url, @link_url) if browse_url.present?
     end
 
+    def path_for_url
+      Utils.encode_job_path(path)
+    end
+
     def id
       Utils.job_id(self) if path.present?
     end

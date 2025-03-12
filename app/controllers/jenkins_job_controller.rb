@@ -93,7 +93,8 @@ class JenkinsJobController < ApplicationController
   end
 
   def find_job_path
-    @job_path = params[:job_path]
+    @job_path_for_url = params[:job_path]
+    @job_path = RedmineJenkinsJob::Utils.decode_job_path(@job_path_for_url)
     @job_id = RedmineJenkinsJob::Utils.job_id(@job_path)
   end
 

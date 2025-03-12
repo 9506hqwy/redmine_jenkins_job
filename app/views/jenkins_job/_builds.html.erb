@@ -39,7 +39,7 @@
         controller: "jenkins_job",
         action: "build",
         project_id: @project.id,
-        job_path: @job_path,
+        job_path: @job_path_for_url,
         id: build.id)%>"
     ><%= l(:label_jenkins_operation_refresh) %></a>
     &nbsp;
@@ -55,7 +55,7 @@
         controller: "jenkins_job",
         action: "output",
         project_id: @project.id,
-        job_path: @job_path,
+        job_path: @job_path_for_url,
         id: build.id)%>"
     ><%= l(:label_jenkins_operation_stdout) %></a>
     &nbsp;
@@ -70,7 +70,7 @@
         controller: "jenkins_job",
         action: "artifacts",
         project_id: @project.id,
-        job_path: @job_path,
+        job_path: @job_path_for_url,
         id: build.id)%>"
     ><%= l(:label_jenkins_artifacts) %></a>
     <% end %>  <!-- if -->
