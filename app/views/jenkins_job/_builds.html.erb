@@ -13,15 +13,39 @@
 
   <td class="result <%= build.building ? 'jenkins-build-inprogress' : '' %>">
     <% if build.building %>
-      <span class="icon icon-warning">In Progress</span>
+      <span class="icon icon-warning">
+        <% if Redmine::VERSION::MAJOR > 6 %>
+          <%= sprite_icon("alert-circle") %>
+        <% end %>
+
+        In Progress
+      </span>
     <% else %>
       <% case build.result %>
       <% when 'SUCCESS' then %>
-        <span class="icon icon-ok"><%= build.result %></span>
+        <span class="icon icon-ok">
+          <% if Redmine::VERSION::MAJOR > 6 %>
+            <%= sprite_icon("checked") %>
+          <% end %>
+
+          <%= build.result %>
+        </span>
       <% when 'FAILURE' then %>
-        <span class="icon icon-error"><%= build.result %></span>
+        <span class="icon icon-error">
+          <% if Redmine::VERSION::MAJOR > 6 %>
+            <%= sprite_icon("warning") %>
+          <% end %>
+
+          <%= build.result %>
+        </span>
       <% when 'ABORTED' then %>
-        <span class="icon icon-warning"><%= build.result %></span>
+        <span class="icon icon-warning">
+          <% if Redmine::VERSION::MAJOR > 6 %>
+            <%= sprite_icon("alert-circle") %>
+          <% end %>
+
+          <%= build.result %>
+        </span>
       <% else %>
         &nbsp;
       <% end %>
@@ -41,7 +65,13 @@
         project_id: @project.id,
         job_path: @job_path_for_url,
         id: build.id)%>"
-    ><%= l(:label_jenkins_operation_refresh) %></a>
+    >
+      <% if Redmine::VERSION::MAJOR > 6 %>
+        <%= sprite_icon("reload") %>
+      <% end %>
+
+      <%= l(:label_jenkins_operation_refresh) %>
+    </a>
     &nbsp;
     <% end %>
 
@@ -57,7 +87,13 @@
         project_id: @project.id,
         job_path: @job_path_for_url,
         id: build.id)%>"
-    ><%= l(:label_jenkins_operation_stdout) %></a>
+    >
+      <% if Redmine::VERSION::MAJOR > 6 %>
+        <%= sprite_icon("file") %>
+      <% end %>
+
+      <%= l(:label_jenkins_operation_stdout) %>
+    </a>
     &nbsp;
 
     <% if build.artifacts.any? %>
@@ -72,7 +108,13 @@
         project_id: @project.id,
         job_path: @job_path_for_url,
         id: build.id)%>"
-    ><%= l(:label_jenkins_artifacts) %></a>
+    >
+      <% if Redmine::VERSION::MAJOR > 6 %>
+        <%= sprite_icon("download") %>
+      <% end %>
+
+      <%= l(:label_jenkins_artifacts) %>
+    </a>
     <% end %>  <!-- if -->
     <% end %> <!-- unless -->
   </td>

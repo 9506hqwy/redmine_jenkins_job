@@ -29,10 +29,20 @@
         project_id: @project.id,
         folder_path: job.path_for_url,
         depth: depth + 1)%>"
-    >&nbsp;</a>
+    >
+      <% if Redmine::VERSION::MAJOR > 6 %>
+        <%= sprite_icon("angle-right", rtl: true) %>
+      <% else %>
+        &nbsp;
+      <% end %>
+    </a>
     <% end %>
 
     <span class="icon <%= job.folder? ? 'icon-folder' : 'icon-file' %>">
+      <% if Redmine::VERSION::MAJOR > 6 %>
+        <%= sprite_icon(job.folder? ? 'folder' : 'file', rtl: true) %>
+      <% end %>
+
       <%= Addressable::URI.unescape(job.name) %>
     </span>
 

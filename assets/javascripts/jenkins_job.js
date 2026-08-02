@@ -27,6 +27,11 @@ function addJenkinsFolderRow(parent, data) {
             ex.addEventListener('click', toggleJenkinsFolder);
         }
 
+        // for Redmine 7.0 or later.
+        for (const icon of child.querySelectorAll('.expander svg')) {
+            icon.addEventListener('click', toggleJenkinsFolder);
+        }
+
         for (const ex of child.querySelectorAll('input[type="checkbox"]')) {
             ex.addEventListener('change', toggleJenkinsFileCheckbox);
         }
@@ -131,6 +136,12 @@ function collapseJenkinsFolderRow(row) {
     expander.classList.add('collapsed');
     expander.classList.add('icon-collapsed');
 
+    const icon = expander.querySelector('svg');
+    if (icon !== null) {
+        updateSVGIcon(icon, 'angle-right');
+        icon.classList.add('icon-rtl');
+    }
+
     row.classList.remove('open');
     row.classList.add('collapsed');
 }
@@ -143,6 +154,12 @@ function collapseJenkinsJobRow(row) {
     expander.classList.remove('icon-expanded');
     expander.classList.add('collapsed');
     expander.classList.add('icon-collapsed');
+
+    const icon = expander.querySelector('svg');
+    if (icon !== null) {
+        updateSVGIcon(icon, 'angle-right');
+        icon.classList.add('icon-rtl');
+    }
 
     row.classList.add('collapsed');
 }
@@ -157,6 +174,12 @@ function expandJenkinsFolderRow(row) {
     expander.classList.add('icon-expended');
     expander.classList.add('icon-expanded');
 
+    const icon = expander.querySelector('svg');
+    if (icon !== null) {
+        updateSVGIcon(icon, 'angle-down');
+        icon.classList.remove('icon-rtl');
+    }
+
     displayJenkinsFolder(row);
 }
 
@@ -168,6 +191,12 @@ function expandJenkinsJobRow(row) {
     expander.classList.remove('icon-collapsed');
     expander.classList.add('icon-expended');
     expander.classList.add('icon-expanded');
+
+    const icon = expander.querySelector('svg');
+    if (icon !== null) {
+        updateSVGIcon(icon, 'angle-down');
+        icon.classList.remove('icon-rtl');
+    }
 
     displayJenkinsBuild(row);
 }
@@ -196,8 +225,15 @@ function toggleJenkinsFileCheckbox(e) {
 
 function toggleJenkinsFolder(e) {
     e.preventDefault();
+    e.stopPropagation();
 
-    const row = document.getElementById(e.target.dataset.id);
+    let target = e.target;
+    let row = document.getElementById(target.dataset.id);
+    if (row == null) {
+        target = target.closest('.expander');
+        row = document.getElementById(target.dataset.id);
+    }
+
     if (!row.classList.contains('collapsed')) {
         collapseJenkinsFolderRow(row);
         return;
@@ -220,7 +256,7 @@ function toggleJenkinsFolder(e) {
 
     showJenkinsInProgress(jenkinsLoadingMessage);
     row.classList.add('loading');
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 closeJenkinsInProgress();
@@ -241,8 +277,15 @@ function toggleJenkinsFolder(e) {
 
 function toggleJenkinsJob(e) {
     e.preventDefault();
+    e.stopPropagation();
 
-    const row = document.getElementById(e.target.dataset.id);
+    let target = e.target;
+    let row = document.getElementById(target.dataset.id);
+    if (row == null) {
+        target = target.closest('.expander');
+        row = document.getElementById(target.dataset.id);
+    }
+
     if (!row.classList.contains('collapsed')) {
         collapseJenkinsJobRow(row);
         return;
@@ -260,7 +303,7 @@ function toggleJenkinsJob(e) {
 
     showJenkinsInProgress(jenkinsLoadingMessage);
     row.classList.add('loading');
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 closeJenkinsInProgress();
@@ -296,6 +339,11 @@ function toggleJenkinsServerSecret(target) {
 }
 
 function execJenkinsBuild(job, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let target = e.target;
+
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const option = {
@@ -307,7 +355,7 @@ function execJenkinsBuild(job, e) {
     };
 
     showJenkinsInProgress(jenkinsLoadingMessage);
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 closeJenkinsInProgress();
@@ -323,13 +371,18 @@ function execJenkinsBuild(job, e) {
 
 
 function refreshJenkinsJob(job, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let target = e.target;
+
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
     showJenkinsInProgress(jenkinsLoadingMessage);
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 closeJenkinsInProgress();
@@ -344,13 +397,18 @@ function refreshJenkinsJob(job, e) {
 }
 
 function refreshJenkinsBuild(build, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let target = e.target;
+
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
     //showJenkinsInProgress(jenkinsLoadingMessage);
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 //closeJenkinsInProgress();
@@ -384,13 +442,18 @@ function refreshJenkinsCount() {
 }
 
 function displayJenkinsArtifact(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let target = e.target;
+
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
     showJenkinsInProgress(jenkinsLoadingMessage);
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 closeJenkinsInProgress();
@@ -407,13 +470,18 @@ function displayJenkinsArtifact(e) {
 }
 
 function displayJenkinsOutput(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let target = e.target;
+
     const option = {
         method: 'GET',
         cache: 'no-cache',
     };
 
     showJenkinsInProgress(jenkinsLoadingMessage);
-    fetch(e.target.dataset.url, option).then(function (response) {
+    fetch(target.dataset.url, option).then(function (response) {
         if (response.ok) {
             response.text().then(function (data) {
                 closeJenkinsInProgress();
@@ -431,34 +499,37 @@ function displayJenkinsOutput(e) {
 
 function doJenkinsAction(e) {
     e.preventDefault();
+    e.stopPropagation();
 
-    const jobId = e.target.dataset.jobId;
+    let target = e.target;
+
+    const jobId = target.dataset.jobId;
 
     if (jobId == null) {
-        const jobId = e.target.dataset.id;
+        const jobId = target.dataset.id;
         const job = document.getElementById(jobId);
 
-        if (e.target.classList.contains('icon-add')) {
+        if (target.classList.contains('icon-add')) {
             execJenkinsBuild(job, e);
-        } else if (e.target.classList.contains('icon-reload')) {
+        } else if (target.classList.contains('icon-reload')) {
             refreshJenkinsJob(job, e);
-        } else if (e.target.classList.contains('text-plain')) {
+        } else if (target.classList.contains('text-plain')) {
             displayJenkinsOutput(e);
-        } else if (e.target.classList.contains('icon-download')) {
+        } else if (target.classList.contains('icon-download')) {
             displayJenkinsArtifact(e);
         } else {
             console.log(e);
         }
     } else {
-        const id = e.target.dataset.id;
+        const id = target.dataset.id;
         const buildId = `${jobId}-${id}`
         const build = document.getElementById(buildId);
 
-        if (e.target.classList.contains('icon-reload')) {
+        if (target.classList.contains('icon-reload')) {
             refreshJenkinsBuild(build, e);
-        } else if (e.target.classList.contains('text-plain')) {
+        } else if (target.classList.contains('text-plain')) {
             displayJenkinsOutput(e);
-        } else if (e.target.classList.contains('icon-download')) {
+        } else if (target.classList.contains('icon-download')) {
             displayJenkinsArtifact(e);
         } else {
             console.log(e);
