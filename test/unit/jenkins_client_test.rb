@@ -15,102 +15,102 @@ class JenkinsClientTest < ActiveSupport::TestCase
   end
 
   def test_content_length
-      WebMock.enable!
+    WebMock.enable!
 
-      stub_request(:head, 'https://127.0.0.1:8080/test').
-          to_return(headers: { 'Content-Length': '1'})
+    stub_request(:head, 'https://127.0.0.1:8080/test').
+        to_return(headers: { 'Content-Length': '1'})
 
-      size = @client.content_length('test/')
+    size = @client.content_length('test/')
 
-      assert_equal '1', size
+    assert_equal '1', size
   ensure
     WebMock.disable!
   end
 
   def test_build
-      WebMock.enable!
+    WebMock.enable!
 
-      query = RedmineJenkinsJob::Utils.build_query
-      stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
-          to_return(body: '{}')
+    query = RedmineJenkinsJob::Utils.build_query
+    stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
+        to_return(body: '{}')
 
-      build = @client.build('test/')
+    build = @client.build('test/')
 
-      assert build.instance_of?(RedmineJenkinsJob::JenkinsBuild)
+    assert build.instance_of?(RedmineJenkinsJob::JenkinsBuild)
   ensure
     WebMock.disable!
   end
 
   def test_build_output
-      WebMock.enable!
+    WebMock.enable!
 
-      stub_request(:get, "https://127.0.0.1:8080/test/consoleText").
-          to_return(body: 'text')
+    stub_request(:get, "https://127.0.0.1:8080/test/consoleText").
+        to_return(body: 'text')
 
-      stdout = @client.build_output('test/')
+    stdout = @client.build_output('test/')
 
-      assert_equal 'text', stdout
+    assert_equal 'text', stdout
   ensure
     WebMock.disable!
   end
 
   def test_exec
-      WebMock.enable!
+    WebMock.enable!
 
-      stub_request(:get, "https://127.0.0.1:8080/crumbIssuer/api/json").
-          to_return(body: '{"crumb": "value", "crumbRequestField": "key"}')
-      stub_request(:post, "https://127.0.0.1:8080/test/build").
-          to_return(headers: {Location: 'https://127.0.0.1:8080/test/1/'})
+    stub_request(:get, "https://127.0.0.1:8080/crumbIssuer/api/json").
+        to_return(body: '{"crumb": "value", "crumbRequestField": "key"}')
+    stub_request(:post, "https://127.0.0.1:8080/test/build").
+        to_return(headers: {Location: 'https://127.0.0.1:8080/test/1/'})
 
-      query = RedmineJenkinsJob::Utils.build_query
-      stub_request(:get, "https://127.0.0.1:8080/test/1/api/json?#{query}").
-          to_return(body: '{}')
+    query = RedmineJenkinsJob::Utils.build_query
+    stub_request(:get, "https://127.0.0.1:8080/test/1/api/json?#{query}").
+        to_return(body: '{}')
 
-      build = @client.exec('test/')
+    build = @client.exec('test/')
 
-      assert build.instance_of?(RedmineJenkinsJob::JenkinsBuild)
+    assert build.instance_of?(RedmineJenkinsJob::JenkinsBuild)
   ensure
     WebMock.disable!
   end
 
   def test_job
-      WebMock.enable!
+    WebMock.enable!
 
-      query = RedmineJenkinsJob::Utils.job_query
-      stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
-          to_return(body: '{}')
+    query = RedmineJenkinsJob::Utils.job_query
+    stub_request(:get, "https://127.0.0.1:8080/test/api/json?#{query}").
+        to_return(body: '{}')
 
-      job = @client.job('test/')
+    job = @client.job('test/')
 
-      assert job.instance_of?(RedmineJenkinsJob::JenkinsJobDetail)
+    assert job.instance_of?(RedmineJenkinsJob::JenkinsJobDetail)
   ensure
     WebMock.disable!
   end
 
   def test_root
-      WebMock.enable!
+    WebMock.enable!
 
-      query = RedmineJenkinsJob::Utils.root_query
-      stub_request(:get, "https://127.0.0.1:8080/api/json?#{query}").
-          to_return(body: '{"jobs": [{}]}')
+    query = RedmineJenkinsJob::Utils.root_query
+    stub_request(:get, "https://127.0.0.1:8080/api/json?#{query}").
+        to_return(body: '{"jobs": [{}]}')
 
-      jobs = @client.root
+    jobs = @client.root
 
-      assert_equal 1, jobs.length
-      assert jobs[0].instance_of?(RedmineJenkinsJob::JenkinsJob)
+    assert_equal 1, jobs.length
+    assert jobs[0].instance_of?(RedmineJenkinsJob::JenkinsJob)
   ensure
     WebMock.disable!
   end
 
   def test_version
-      WebMock.enable!
+    WebMock.enable!
 
-      stub_request(:head, "https://127.0.0.1:8080/api/json").
-          to_return(headers: {'X-Jenkins': '1'})
+    stub_request(:head, "https://127.0.0.1:8080/api/json").
+        to_return(headers: {'X-Jenkins': '1'})
 
-      version = @client.version
+    version = @client.version
 
-      assert_equal '1', version
+    assert_equal '1', version
   ensure
     WebMock.disable!
   end

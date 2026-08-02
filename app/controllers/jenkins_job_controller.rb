@@ -13,17 +13,15 @@ class JenkinsJobController < ApplicationController
     jobs = []
     not_found = []
     (setting.monitoring_jobs || []).each do |job_path|
-      begin
-        jobs.push(client.job(job_path))
-      rescue Net::HTTPExceptions => e
-        if e.response.code == '404'
-          not_found.push(job_path)
-        else
-          return render_error(message: e.message)
-        end
-      rescue => e
+      jobs.push(client.job(job_path))
+    rescue Net::HTTPExceptions => e
+      if e.response.code == '404'
+        not_found.push(job_path)
+      else
         return render_error(message: e.message)
       end
+    rescue => e
+      return render_error(message: e.message)
     end
 
     if not_found.any?
