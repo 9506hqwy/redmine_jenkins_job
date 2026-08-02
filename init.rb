@@ -21,7 +21,7 @@ Redmine::Plugin.register :redmine_jenkins_job do
   name 'Redmine Jenkins Job plugin'
   author '9506hqwy'
   description 'This is a jenkins job operator plugin for Redmine'
-  version '0.1.0'
+  version '0.2.0'
   url 'https://github.com/9506hqwy/redmine_jenkins_job'
   author_url 'https://github.com/9506hqwy'
 
